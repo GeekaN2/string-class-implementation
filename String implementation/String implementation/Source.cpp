@@ -37,10 +37,12 @@ public:
 	};
 
 	char getChar(int i) {
-		if (i >= 0 && i < this->length)
+		if (i >= 0 && i < this->length) {
 			return *(this->start + i);
-		else
+		}
+		else {
 			return '\0';
+		}
 	};
 
 	char operator[] (int index) {
@@ -49,13 +51,16 @@ public:
 
 	bool operator > (String s) {
 		for (int i = 0; i < min(this->length, s.length); i++) {
-			if ((*this)[i] > s[i])
+			if ((*this)[i] > s[i]) {
 				return true;
-			else if ((*this)[i] < s[i])
+			}
+			else if ((*this)[i] < s[i]) {
 				return false;
+			}
 		}
-		if (this->length > s.length)
+		if (this->length > s.length) {
 			return true;
+		}
 	}
 
 	bool operator < (String s) {
