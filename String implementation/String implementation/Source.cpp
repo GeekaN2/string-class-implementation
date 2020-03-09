@@ -51,7 +51,8 @@ public:
 
 	// Destructor
 	~String() {
-		// you can write something here
+		// I don't need to write anything here
+		// he will clean everything himself
 	};
 
 	// Returns a character at the position of this string or '\0'
@@ -89,12 +90,57 @@ public:
 		return !(*this > s);
 	}
 
+	// Cut string to [start, end)
+	String slice(int start, int end = -1) {
+		if (start >= end && end != -1) {
+			return String("");
+		}
+		if (end > this->length || end == -1) {
+			end = this->length;
+		}
+		char *nstr = new char[end - start + 1];
+		for (int i = start; i < end; i++) {
+			nstr[i - start] = (*this)[i];
+		}
+		nstr[end] = '\0';
+		return String(nstr);
+	}
+
+	// Normal strings addition
+	String operator + (String s) {;
+		char *nstr = new char[s.length + this->length + 1];
+		for (int i = 0; i < this->length; i++) {
+			nstr[i] = (*this)[i];
+		}
+		for (int i = this->length; i < this->length + s.length; i++) {
+			nstr[i] = s[i - this->length];
+		}
+		nstr[this->length + s.length] = '\0';
+		return String(nstr);
+	}
+
+	// Short addition record
+	void operator += (String s) {
+		*this = (*this + s);
+	}
+
+	// Just the stoi function
+	int toInt() {
+		try {
+			return stoi(this->start);
+		}
+		catch (...) {
+			return 0;
+		}
+	}
+
 private:
 	// Waiting for something interesting
 };
 
 class StringId : public String {
 public:
+
 	// Copying simple constructor from the String class
 	StringId() : String() {}
 
@@ -152,12 +198,60 @@ private:
 	}
 };
 
+class ComplexNumber {
+public:
+
+	// Real part of complex number
+	long long real;
+
+	// Imaginary part of complex number
+	long long imaginary;
+
+	// There are no parameters, then a zero
+	ComplexNumber() {
+		assignZeroNumber();
+	}
+
+	// Parse string for 2 parts - real and imaginary
+	ComplexNumber(char s[]) {
+		if (regex_match(s, regex("[+-]?[0-9]+i[+-]?[0-9]+"))) {
+			int delimeterIndex = 0;
+			for (int i = 0; i < strlen(s); i++) {
+				if (s[i] == 'i') {
+					delimeterIndex = i;
+					break;
+				}
+			}
+			this->real = String(s).slice(0, delimeterIndex).toInt();
+			this->imaginary = String(s).slice(delimeterIndex + 1).toInt();
+		}
+		else {
+			assignZeroNumber();
+		}
+	}
+
+private:
+
+	// Zero
+	void assignZeroNumber() {
+		this->real = 0;
+		this->imaginary = 0;
+	}
+};
 
 int main() {
-	char s[] = "test_string";
-	StringId saske = StringId(s);
-	StringId kek = "cool.string";
-	bool ok = saske > kek;
+	/** 
+	 * Test for String and StringId
+	 *
+	 * char s[] = "test_string";
+	 * StringId cool_name = StringId(s);
+	 * StringId not_so = "cool.string";
+	 * bool ok = cool_name > not_so;
+	 */
+
+	char s[] = "-192i20";
+	ComplexNumber cool_name = ComplexNumber(s);
+
 	system("pause");
 	return 0;
 }
