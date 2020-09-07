@@ -116,6 +116,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="String.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ComplexNumber.h" />
+    <ClInclude Include="StringId.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
